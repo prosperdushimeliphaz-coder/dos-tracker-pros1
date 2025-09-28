@@ -1,0 +1,47 @@
+import streamlit as st
+import pandas as pd
+
+# --- Page setup ---
+st.set_page_config(page_title="DOS Tracker", layout="wide")
+
+st.title("📊 DOS Tracker - Teacher Management Prototype")
+
+# --- Sidebar Menu ---
+menu = ["Dashboard", "Teachers", "Reports"]
+choice = st.sidebar.selectbox("📌 Menu", menu)
+
+# --- Dashboard Page ---
+if choice == "Dashboard":
+    st.subheader("Welcome to DOS Tracker")
+    st.write("This is a prototype web app for managing teacher records, monitoring workloads, and generating reports.")
+    st.info("Use the sidebar to navigate through sections.")
+
+# --- Teachers Page ---
+elif choice == "Teachers":
+    st.subheader("👩🏾‍🏫 Teacher Management")
+    
+    # Sample data
+    data = {
+        "Name": ["Alice Uwase", "John Mugisha", "Grace Niyonsaba"],
+        "Subject": ["Biology", "Math", "English"],
+        "Hours/Week": [18, 22, 16],
+        "Performance": ["Excellent", "Good", "Average"]
+    }
+    df = pd.DataFrame(data)
+    st.dataframe(df, use_container_width=True)
+
+    st.markdown("### ➕ Add a New Teacher")
+    with st.form("teacher_form"):
+        name = st.text_input("Full Name")
+        subject = st.text_input("Subject")
+        hours = st.number_input("Hours per Week", 0, 40, 18)
+        performance = st.selectbox("Performance", ["Excellent", "Good", "Average", "Poor"])
+        submitted = st.form_submit_button("Add Teacher")
+        if submitted:
+            st.success(f"Teacher {name} added successfully!")
+
+# --- Reports Page ---
+elif choice == "Reports":
+    st.subheader("📑 Reports & Insights")
+    st.write("Here you can generate reports about teacher performance, workload distribution, and trends.")
+    st.warning("Report generation module coming soon!")
